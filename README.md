@@ -5,7 +5,9 @@ php extension for spam word filter based on Double-Array Trie tree, it can detec
 
 关键词过滤扩展，用于检查一段文本中是否出现敏感词，基于Double-Array Trie 树实现。
 
-## 升级历史
+## 升级历史 
+### 2017-03-03
+升级为PHP7版本
 
 ### 2013-06-23
 trie_filter_search_all，一次返回所有的命中词;修复内存泄露
@@ -16,14 +18,17 @@ trie_filter_search_all，一次返回所有的命中词;修复内存泄露
 
 ## 安装步骤
 
-下面的$LIB_PATH为依赖库安装目录，$INSTALL_PHP_PATH为PHP5安装目录。
+下面的$LIB_PATH为依赖库安装目录，$INSTALL_PHP_PATH为PHP5安装目录。   
+
+### 安装libiconv  
+（略）
 
 ### 安装libdatrie
     $ tar zxvf libdatrie-0.2.4.tar.gz
     $ cd libdatrie-0.2.4
     $ make clean
     $ ./configure --prefix=$LIB_PATH
-    $ make
+    $ make ICONV_LIBS='/usr/local/lib/libiconv.so'
     $ make install
 
 ### 安装扩展   
