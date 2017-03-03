@@ -18,7 +18,7 @@ trie_filter_search_all，一次返回所有的命中词;修复内存泄露
 
 ## 安装步骤
 
-下面的$LIB_PATH为依赖库安装目录，$INSTALL_PHP_PATH为PHP5安装目录。   
+下面的 $LIB_PATH 为依赖库安装目录，$INSTALL_PHP_PATH 为 PHP7 安装目录。   
 
 ### 安装libiconv  
 （略）
@@ -32,8 +32,12 @@ trie_filter_search_all，一次返回所有的命中词;修复内存泄露
     $ make install
 
 ### 安装扩展   
+    $ cd /usr/local/src/
+    $ wget https://github.com/frostsky/trie_filter/master.zip
+    $ unzip master.zip
+    $ cd trie_filter/
     $ $INSTALL_PHP_PATH/bin/phpize
-    $ ./configure --with-php-config=$INSTALL_PHP_PATH/bin/php-config --with-trie_filter=$LIB_PATH
+    $ ./configure --with-php-config=$INSTALL_PHP_PATH/bin/php-config --with-trie_filter[=$LIB_PATH]
     $ make
     $ make install
 
@@ -41,31 +45,37 @@ trie_filter_search_all，一次返回所有的命中词;修复内存泄露
 
 ## 使用示例
 	<?php
-	$arrWord = array('word1', 'word2', 'word3');
+	// 生成词库字典	
+        $arrWord = array('word1', 'word2', 'word3');
 	$resTrie = trie_filter_new(); //create an empty trie tree
 	foreach ($arrWord as $k => $v) {
-    	trie_filter_store($resTrie, $v);
+    	    trie_filter_store($resTrie, $v);
 	}
-	trie_filter_save($resTrie, __DIR__ . '/blackword.tree');
+	trie_filter_save($resTrie, __DIR__ . '/blackword.dic');
 
-	$resTrie = trie_filter_load(__DIR__ . '/blackword.tree');
+	// 加载字典 	
+        $resTrie = trie_filter_load(__DIR__ . '/blackword.dic');
 
+	// 要过滤的文本
 	$strContent = 'hello word2 word1';
+	
+	// 查找一个敏感词
 	$arrRet = trie_filter_search($resTrie, $strContent);
 	print_r($arrRet); //Array(0 => 6, 1 => 5)
 	echo substr($strContent, $arrRet[0], $arrRet[1]); //word2
+	// 查找所有敏感词
 	$arrRet = trie_filter_search_all($resTrie, $strContent);
 	print_r($arrRet); //Array(0 => Array(0 => 6, 1 => 5), 1 => Array(0 => 12, 1 => 5))
 	
 
 	$arrRet = trie_filter_search($resTrie, 'hello word');
 	print_r($arrRet); //Array()
-
+	//在脚本结束的时候，trie tree会自动销毁，不过我们可以通过trie_filter_free在执行过程中销毁一个trie tree
 	trie_filter_free($resTrie);
 
 # PHP版本
 
-PHP 5.2 or later.
+PHP 7 or later.
 
 Windows is not support until now.
 
