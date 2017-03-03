@@ -33,7 +33,7 @@ trie_filter_search_all，一次返回所有的命中词;修复内存泄露
 
 ### 安装扩展   
     $ cd /usr/local/src/
-    $ wget https://github.com/frostsky/trie_filter/master.zip
+    $ wget https://github.com/frostsky/trie_filter/archive/master.zip
     $ unzip master.zip
     $ cd trie_filter/
     $ $INSTALL_PHP_PATH/bin/phpize
@@ -46,15 +46,15 @@ trie_filter_search_all，一次返回所有的命中词;修复内存泄露
 ## 使用示例
 	<?php
 	// 生成词库字典	
-        $arrWord = array('word1', 'word2', 'word3');
+	$arrWord = array('word1', 'word2', 'word3');
 	$resTrie = trie_filter_new(); //create an empty trie tree
 	foreach ($arrWord as $k => $v) {
-    	    trie_filter_store($resTrie, $v);
+		trie_filter_store($resTrie, $v);
 	}
 	trie_filter_save($resTrie, __DIR__ . '/blackword.dic');
 
 	// 加载字典 	
-        $resTrie = trie_filter_load(__DIR__ . '/blackword.dic');
+	$resTrie = trie_filter_load(__DIR__ . '/blackword.dic');
 
 	// 要过滤的文本
 	$strContent = 'hello word2 word1';
